@@ -7,7 +7,5 @@
         Speed
     }
 
-    public int Speed { get; private set; }
-    public double Attack { get; private set; }
-    public double Defence { get; private set; }
+    public Skills skills { get; private set; }
 }
