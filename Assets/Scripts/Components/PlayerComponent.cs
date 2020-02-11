@@ -11,9 +11,11 @@ class PlayerComponent : MonoBehaviour
 
     void OnMouseDown()
     {
-        Debug.Log("Goods" + Base.Resourses.Goods);
-        Debug.Log("People" + Base.Resourses.People);
-        Debug.Log("Credits" + Base.Resourses.Credits);
+        var resources = Base.Resourсes();
+
+        Debug.Log("Goods" + resources.Goods);
+        Debug.Log("People" + resources.People);
+        Debug.Log("Credits" + resources.Credits);
     }
 }
 

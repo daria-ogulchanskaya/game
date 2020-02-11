@@ -2,9 +2,13 @@
 
 class GridComponent : MonoBehaviour
 {
-    public GameObject Tile, BaseTile, EnemyTile;
-    public Grid Grid { get; set; } 
+    public GameObject EmptyTile;
+    public GameObject PlayerTile;
+    public GameObject EnemyTile;
+
     private float _tileSize = 1;
+
+    public Grid Grid { get; set; }
 
     void Start()
     {
@@ -23,7 +27,7 @@ class GridComponent : MonoBehaviour
                 {
                     if (i == 0 && j == 0)
                     {
-                        tile = Instantiate(BaseTile, transform);
+                        tile = Instantiate(PlayerTile, transform);
                         var playerComponent = tile.AddComponent<PlayerComponent>();
                         playerComponent.Base = Grid[i, j];
                     }
@@ -31,7 +35,7 @@ class GridComponent : MonoBehaviour
                         tile = Instantiate(EnemyTile, transform);
                 }
                 else
-                    tile = Instantiate(Tile, transform);
+                    tile = Instantiate(EmptyTile, transform);
 
                 tile.name = "Tile" + "[" + i + ", " + j + "]";
                 tile.transform.position = new Vector2(j * _tileSize, i * -_tileSize);
