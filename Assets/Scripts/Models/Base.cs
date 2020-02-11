@@ -5,7 +5,7 @@ using System.Linq;
 class Base
 {
     private Dictionary<Unit.Type, int> _army;
-    public Resourses Resourses;
+    public Resourсes Resources;
 
     public List<Building> Buildings { get; private set; }
 
@@ -27,9 +27,9 @@ class Base
                 { Unit.Type.Speed, 0 }
             };
 
-        Resourses.Goods = Settings.Initial.Resourses.Goods;
-        Resourses.People = Settings.Initial.Resourses.People;
-        Resourses.Credits = Settings.Initial.Resourses.Credits;
+        Resources.Goods = Settings.Initial.Resourсes.Goods;
+        Resources.People = Settings.Initial.Resourсes.People;
+        Resources.Credits = Settings.Initial.Resourсes.Credits;
     }
 
     IEnumerable<IFactory> Factories =>
@@ -49,23 +49,17 @@ class Base
 
     public void Produce()
     {
-        Resourses.Credits += Settings.Production.CreditsPerPerson * Resourses.People + Portals.Sum(x => x.Income);
-        Resourses.People += Settings.Production.PeoplePerStep + Modules.Sum(x => x.PopulationGrowth);
-        Resourses.Goods += Settings.Production.GoodsPerStep + Factories.Sum(x => x.Production);
+        Resources.Credits += Settings.Production.CreditsPerPerson * Resources.People + Portals.Sum(x => x.Income);
+        Resources.People += Settings.Production.PeoplePerStep + Modules.Sum(x => x.PopulationGrowth);
+        Resources.Goods += Settings.Production.GoodsPerStep + Factories.Sum(x => x.Production);
     }
-
-    public int PopulationLimit() =>
-        Modules.Sum(x => x.PopulationLimit);
-
-    public int UnitLimit() =>
-        Barracks.Sum(x => x.UnitLimit);
 
     public void Expand()
     {
-        if (!Resourses.IsEnough(Settings.Expand.Price))
+        if (!Resources.IsEnough(Settings.Expand.Price))
             throw new Exception("You do not have enough resources.");
 
-        Resourses.Substract(Settings.Expand.Price);
+        Resources.Substract(Settings.Expand.Price);
 
         Buildings.Add(new ResidentialModule());
         Buildings.Add(new Workshop());
@@ -86,7 +80,9 @@ class Base
         foreach (var building in Buildings)
             if (building.Upgrading)
             {
-                
+                //if (!Resources.IsEnough(building.UpgradePrice()))
+                //    throw new Exception("You do not have enough resources.");
+
                 building.LevelUp();
             }
     }
@@ -98,15 +94,20 @@ class Base
             if (building.Training)
             {
                 var units = building.Units;
+                var trainedNumber = units.Sum(x => x.Value);
+                var trainPrice = Settings.Train.Price.Multiply(trainedNumber);
 
-                if (units.Sum(x => x.Value) + _army.Sum(x => x.Value) > UnitLimit())
+                if (!Resources.IsEnough(trainPrice))
+                    throw new Exception("You do not have enough resources.");
+
+                if (trainedNumber + UnitNumber() > UnitLimit())
                     throw new Exception("Exceeding the limit of units!");
 
                 foreach (var unit in units)
                     _army[unit.Key] += unit.Value;
-            }
 
-            building.Trained();
+                building.Trained();
+            }
         }
     }
 
@@ -114,19 +115,28 @@ class Base
     {
         var purchasePrice = Portals.Sum(x => x.PurchasePrice);
 
-        if (Resourses.Credits < purchasePrice * count)
+        if (Resources.Credits < purchasePrice * count)
             throw new Exception("You do not have enough credits.");
 
-        Resourses.Credits -= count * purchasePrice;
-        Resourses.Goods += count;
+        Resources.Credits -= count * purchasePrice;
+        Resources.Goods += count;
     }
 
     public void Sell(int count)
     {
-        if (Resourses.Goods < count)
+        if (Resources.Goods < count)
             throw new Exception("You do not have enough goods.");
 
-        Resourses.Credits += count * Portals.Sum(x => x.SalePrice);
-        Resourses.Goods -= count;
+        Resources.Credits += count * Portals.Sum(x => x.SalePrice);
+        Resources.Goods -= count;
     }
+
+    private int UnitNumber() =>
+        _army.Sum(x => x.Value);
+
+    public int PopulationLimit() =>
+        Modules.Sum(x => x.PopulationLimit);
+
+    public int UnitLimit() =>
+        Barracks.Sum(x => x.UnitLimit);
 }
