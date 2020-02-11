@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-class Grid
+public class Grid
 {
     private Base[,] _grid;
 
