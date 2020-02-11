@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 class PlayerComponent : MonoBehaviour
 {
@@ -13,9 +8,9 @@ class PlayerComponent : MonoBehaviour
     {
         var resources = Base.Resourсes();
 
-        Debug.Log("Goods" + resources.Goods);
-        Debug.Log("People" + resources.People);
-        Debug.Log("Credits" + resources.Credits);
+        Debug.Log($"Goods: {resources.Goods}, " +
+           $"People: {resources.People}, " +
+           $"Credits: {resources.Credits}");
     }
 }
 
