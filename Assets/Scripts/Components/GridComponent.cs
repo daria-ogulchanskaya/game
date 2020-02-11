@@ -6,7 +6,7 @@ class GridComponent : MonoBehaviour
     public GameObject PlayerTile;
     public GameObject EnemyTile;
 
-    private float _tileSize = 1;
+    private int _tileSize = 1;
 
     public Grid Grid { get; set; }
 
