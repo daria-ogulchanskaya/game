@@ -12,7 +12,7 @@
         ++Level;
     }
 
-    public void LevelDown()
+    public void Expand()
     {
         if (Level <= Settings.Expand.WallLevelDecrease)
             Level = 1;
