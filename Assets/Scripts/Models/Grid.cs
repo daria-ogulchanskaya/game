@@ -7,46 +7,32 @@ public class Grid
     public int Width { get; }
     public int Height { get; }
 
-    public List<(int, int)> Corners { get; }
-
     public Grid(int width, int height)
     {
         Width = width;
         Height = height;
-
-        Corners = new List<(int, int)>{
-            (0, 0),
-            (0, Height - 1),
-            (Width - 1, 0),
-            (Width - 1, Height - 1)
-        };
 
         _grid = new Base[Width, Height];
     }
 
     public Base this[int i, int j] 
     {
-        get 
-        {
-            return _grid[i, j];
-        }
-
-        set 
-        {
-            _grid[i, j] = value;
-        }
+        get => _grid[i, j];
+        set => _grid[i, j] = value;
     }
 
     public Base this[(int i, int j) position] 
     {
-        get
-        {
-            return _grid[position.i, position.j];
-        }
+        get => this[position.i, position.j];
+        set => this[position.i, position.j] = value;
+    }
 
-        set 
-        {
-            _grid[position.i, position.j] = value;
+    public IEnumerable<(int, int)> Corners {
+        get {
+            yield return (0, 0);
+            yield return (0, Height - 1);
+            yield return (Width - 1, 0);
+            yield return (Width - 1, Height - 1);
         }
     }
 }
