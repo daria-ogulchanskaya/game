@@ -4,9 +4,10 @@ public class Grid
 {
     private Base[,] _grid;
 
-    public int Width { get; set; }
-    public int Height { get; set; }
-    public List<(int, int)> Corners { get; set; }
+    public int Width { get; }
+    public int Height { get; }
+
+    public List<(int, int)> Corners { get; }
 
     public Grid(int width, int height)
     {
