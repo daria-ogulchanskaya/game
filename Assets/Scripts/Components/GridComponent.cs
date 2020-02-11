@@ -2,44 +2,44 @@
 
 class GridComponent : MonoBehaviour
 {
-    public GameObject EmptyTile;
     public GameObject PlayerTile;
     public GameObject EnemyTile;
+    public GameObject EmptyTile;
 
-    private int _tileSize = 1;
+    public Grid Grid;
 
-    public Grid Grid { get; set; }
-
-    void Start()
-    {
+    private void Start() =>
         GenerateGrid();
-    }
 
-    void GenerateGrid()
+    private void GenerateGrid()
     {
-        GameObject tile;
-
-        for (int i = 0; i < Grid.Width; i++)
+        for (int x = 0; x < Grid.Width; x++)
+        for (int y = 0; y < Grid.Height; y++)
         {
-            for (int j = 0; j < Grid.Height; j++)
-            {
-                if (Grid[i, j] != null)
-                {
-                    if (i == 0 && j == 0)
-                    {
-                        tile = Instantiate(PlayerTile, transform);
-                        var playerComponent = tile.AddComponent<PlayerComponent>();
-                        playerComponent.Base = Grid[i, j];
-                    }
-                    else
-                        tile = Instantiate(EnemyTile, transform);
-                }
-                else
-                    tile = Instantiate(EmptyTile, transform);
+            var tile = Place(x, y);
 
-                tile.name = "Tile" + "[" + i + ", " + j + "]";
-                tile.transform.position = new Vector2(j * _tileSize, i * -_tileSize);
+            tile.name = $"Tile[{x}, {y}]";
+            tile.transform.position = new Vector2(y, x);
+        }
+
+        GameObject Place(int x, int y)
+        {
+            var tile = Grid[x, y];
+            if (tile == null)
+                return Instantiate(EmptyTile, transform);
+
+            // Player's base is always in the bottom left corner.
+            if (x == 0 && y == 0)
+            {
+                var @object = Instantiate(PlayerTile, transform);
+                var player = @object.AddComponent<PlayerComponent>();
+
+                player.Base = Grid[x, y];
+
+                return @object;
             }
+            else
+                return Instantiate(EnemyTile, transform);
         }
     }
 }
