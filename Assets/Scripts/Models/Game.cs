@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public class Game
 {
@@ -10,10 +11,9 @@ public class Game
         Grid = new Grid(width, height);
         Bases = new List<Base>();
 
-        for (var i = 0; i < enemies + 1; ++i)
+        foreach (var corner in Grid.Corners.Take(enemies + 1))
         {
             var @base = new Base();
-            var corner = Grid.Corners[i];
 
             Bases.Add(@base);
             Grid[corner] = @base;
