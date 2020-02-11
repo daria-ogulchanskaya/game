@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-class Game
+public class Game
 {
     public Grid Grid { get; }
     public List<Base> Bases { get; }
