@@ -5,6 +5,7 @@ using System.Linq;
 public class Base
 {
     private Dictionary<Unit.Type, int> _army;
+
     private Resourсes _resources;
 
     public List<Building> Buildings { get; private set; }
@@ -65,7 +66,7 @@ public class Base
         Buildings.Add(new Workshop());
 
         foreach (var wall in Walls)
-            wall.LevelDown();
+            wall.Expand();
     }
 
     public virtual void Step()
