@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-class GridComponent : MonoBehaviour
+public class GridComponent : MonoBehaviour
 {
     public GameObject PlayerTile;
     public GameObject EnemyTile;
@@ -19,7 +19,7 @@ class GridComponent : MonoBehaviour
             var tile = Place(x, y);
 
             tile.name = $"Tile[{x}, {y}]";
-            tile.transform.position = new Vector2(y, x);
+            tile.transform.position = new Vector2(x, y);
         }
 
         GameObject Place(int x, int y)
