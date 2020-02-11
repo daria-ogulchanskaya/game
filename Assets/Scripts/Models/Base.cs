@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
-class Base
+public class Base
 {
     private Dictionary<Unit.Type, int> _army;
-    public Resourсes Resources;
+    private Resourсes _resources;
 
     public List<Building> Buildings { get; private set; }
 
@@ -27,9 +27,9 @@ class Base
                 { Unit.Type.Speed, 0 }
             };
 
-        Resources.Goods = Settings.Initial.Resourсes.Goods;
-        Resources.People = Settings.Initial.Resourсes.People;
-        Resources.Credits = Settings.Initial.Resourсes.Credits;
+        _resources.Goods = Settings.Initial.Resourсes.Goods;
+        _resources.People = Settings.Initial.Resourсes.People;
+        _resources.Credits = Settings.Initial.Resourсes.Credits;
     }
 
     IEnumerable<IFactory> Factories =>
@@ -49,17 +49,17 @@ class Base
 
     public void Produce()
     {
-        Resources.Credits += Settings.Production.CreditsPerPerson * Resources.People + Portals.Sum(x => x.Income);
-        Resources.People += Settings.Production.PeoplePerStep + Modules.Sum(x => x.PopulationGrowth);
-        Resources.Goods += Settings.Production.GoodsPerStep + Factories.Sum(x => x.Production);
+        _resources.Credits += Settings.Production.CreditsPerPerson * _resources.People + Portals.Sum(x => x.Income);
+        _resources.People += Settings.Production.PeoplePerStep + Modules.Sum(x => x.PopulationGrowth);
+        _resources.Goods += Settings.Production.GoodsPerStep + Factories.Sum(x => x.Production);
     }
 
     public void Expand()
     {
-        if (!Resources.IsEnough(Settings.Expand.Price))
+        if (!_resources.IsEnough(Settings.Expand.Price))
             throw new Exception("You do not have enough resources.");
 
-        Resources.Substract(Settings.Expand.Price);
+        _resources.Substract(Settings.Expand.Price);
 
         Buildings.Add(new ResidentialModule());
         Buildings.Add(new Workshop());
@@ -97,7 +97,7 @@ class Base
                 var trainedNumber = units.Sum(x => x.Value);
                 var trainPrice = Settings.Train.Price.Multiply(trainedNumber);
 
-                if (!Resources.IsEnough(trainPrice))
+                if (!_resources.IsEnough(trainPrice))
                     throw new Exception("You do not have enough resources.");
 
                 if (trainedNumber + UnitNumber() > UnitLimit())
@@ -115,20 +115,20 @@ class Base
     {
         var purchasePrice = Portals.Sum(x => x.PurchasePrice);
 
-        if (Resources.Credits < purchasePrice * count)
+        if (_resources.Credits < purchasePrice * count)
             throw new Exception("You do not have enough credits.");
 
-        Resources.Credits -= count * purchasePrice;
-        Resources.Goods += count;
+        _resources.Credits -= count * purchasePrice;
+        _resources.Goods += count;
     }
 
     public void Sell(int count)
     {
-        if (Resources.Goods < count)
+        if (_resources.Goods < count)
             throw new Exception("You do not have enough goods.");
 
-        Resources.Credits += count * Portals.Sum(x => x.SalePrice);
-        Resources.Goods -= count;
+        _resources.Credits += count * Portals.Sum(x => x.SalePrice);
+        _resources.Goods -= count;
     }
 
     private int UnitNumber() =>
@@ -139,4 +139,7 @@ class Base
 
     public int UnitLimit() =>
         Barracks.Sum(x => x.UnitLimit);
+
+    public Resourсes Resourсes() =>
+        _resources;
 }
