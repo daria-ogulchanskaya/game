@@ -11,6 +11,7 @@ public static class Settings
         public static Resourses Resourses = new Resourses(500, 300, 200);
         public static double PurchasePriсe = 1.5;
         public static double SalePriсe = 1.5;
+        public static int PopulationLimit = 1000;
     }
 
     public static class Production
