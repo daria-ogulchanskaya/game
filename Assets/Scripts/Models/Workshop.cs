@@ -3,7 +3,7 @@
     public double Production { get; set; }
 
     public override void Upgrade() =>
-    Upgrading = true;
+        Upgrading = true;
 
     public override void LevelUp()
     {
