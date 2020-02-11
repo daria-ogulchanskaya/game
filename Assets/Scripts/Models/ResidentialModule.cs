@@ -6,7 +6,7 @@ public class ResidentialModule : Building
 {
     public ResidentialModule()
     {
-        PopulationLimit = 1000;
+        PopulationLimit = Settings.Initial.PopulationLimit;
     }
 
     public double PopulationGrowth { get; private set; }
