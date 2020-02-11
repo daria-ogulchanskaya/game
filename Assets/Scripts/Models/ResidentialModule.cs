@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class ResidentialModule : Building
+﻿public class ResidentialModule : Building
 {
     public ResidentialModule()
     {
