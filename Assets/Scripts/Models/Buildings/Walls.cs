@@ -2,12 +2,9 @@
 {
     public double Defence { get; private set; }
 
-    public override void Upgrade() =>
-        Upgrading = true;
-
     public override void LevelUp()
     {
-        Defence += Settings.Upgrade.WallDefenceIncreace;
+        Defence += Settings.Upgrade.WallDefenceIncrease;
         Upgrading = false;
         ++Level;
     }

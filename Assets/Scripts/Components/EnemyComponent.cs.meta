@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b8c06d851343da743a1a4efd0e45cadb
+guid: e315012c0569b8b4c8741e77541f82a2
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - Panel: {fileID: 6325073127826305922, guid: 0f9cd9194fd3e584f82d33e149fc0c93, type: 3}
+  - Panel: {fileID: 3477576660990202521, guid: ff2afcff52fba9447abb51dad2f32ad0, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

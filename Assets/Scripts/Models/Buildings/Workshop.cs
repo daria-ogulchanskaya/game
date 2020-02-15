@@ -2,12 +2,9 @@
 {
     public double Production { get; set; }
 
-    public override void Upgrade() =>
-        Upgrading = true;
-
     public override void LevelUp()
     {
-        Production += Settings.Upgrade.WorkshopProductionIncreace;
+        Production += Settings.Upgrade.WorkshopProductionIncrease;
         Upgrading = false;
         ++Level;
     }

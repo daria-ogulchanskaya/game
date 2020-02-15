@@ -47,12 +47,12 @@ public class TileMaster : EditorWindow {
 		layers.Clear();
 		
 		SceneView.onSceneGUIDelegate += OnSceneGUI; //Sets delegate for adding the OnSceneGUI event
-		
 
-		cmTileSets = Resources.LoadAll<Texture>("Tilesets"); //Load all tilesets as texture
-		cmSprites = Resources.LoadAll<Sprite>("Tilesets"); //Load all tileset sub objects as tiles
-		texVisible = Resources.Load("Editor/CM Tools/TileMaster/Visible") as Texture2D; //Load visible icon
-		texHidden = Resources.Load("Editor/CM Tools/TileMaster/Hidden") as Texture2D; //Load hidden icon
+
+        cmTileSets = UnityEngine.Resources.LoadAll<Texture>("Tilesets"); //Load all tilesets as texture
+        cmSprites = UnityEngine.Resources.LoadAll<Sprite>("Tilesets"); //Load all tileset sub objects as tiles
+        texVisible = UnityEngine.Resources.Load("Editor/CM Tools/TileMaster/Visible") as Texture2D; //Load visible icon
+        texHidden = UnityEngine.Resources.Load("Editor/CM Tools/TileMaster/Hidden") as Texture2D; //Load hidden icon
 
 		LoadTileset(0);//processes loaded tiles into proper tilesets
 		 
@@ -499,7 +499,7 @@ public class TileMaster : EditorWindow {
 				if(GUILayout.Button("Generate New Texture"))
 				{
 					List<Rect> listOfNewSlices = new List<Rect>();
-					Texture2D curTileSet = Resources.Load<Texture2D>("Tilesets/" + cmTileSets[cmSelectedTileSet].name);//cmTileSets[cmSelectedTileSet];
+                    var curTileSet = UnityEngine.Resources.Load<Texture2D>("Tilesets/" + cmTileSets[cmSelectedTileSet].name);//cmTileSets[cmSelectedTileSet];
 					int newWidth = (int)(curTileSet.width+(padSizeX*2*(curTileSet.width/gridSizeX)));
 					int newHeight = (int)(curTileSet.height+(((curTileSet.height/gridSizeY))*(padSizeY*2)));
 
@@ -608,7 +608,7 @@ public class TileMaster : EditorWindow {
 					}
 					AssetDatabase.Refresh();
 					TextureImporter ti = new TextureImporter();
-					ti = (TextureImporter)AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(Resources.Load<Texture>("Tilesets/" + curTileSet.name + "_padded")));
+					ti = (TextureImporter)AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(UnityEngine.Resources.Load<Texture>("Tilesets/" + curTileSet.name + "_padded")));
 					TextureImporterType type = new TextureImporterType();
 					type = TextureImporterType.Sprite;
 					ti.textureType = type;

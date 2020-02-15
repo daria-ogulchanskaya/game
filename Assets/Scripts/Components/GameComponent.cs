@@ -9,23 +9,30 @@ public class GameComponent : MonoBehaviour
     public int Height;
     public int Enemies;
 
-    private Game _game;
+    public Game Game { get; private set; }
 
     private void Start()
     {
-        _game = new Game(Width, Height, Enemies);
+        Game = new Game(Width, Height, Enemies);
 
         var grid = Instantiate(Grid, transform);
         var gridComponent = grid.GetComponent<GridComponent>();
   
-        gridComponent.Grid = _game.Grid;
+        gridComponent.Grid = Game.Grid;
+        gridComponent.Game = Game;
 
         InvokeRepeating(nameof(Step), GameStepDuration, GameStepDuration);
     }
     
     private void Step()
     { 
-        foreach (var @base in _game.Bases)
+        foreach (var @base in Game.Bases)
             @base.Step();
+
+        foreach (var enemy in EnemyComponents())
+            enemy.Step();
     }
+
+    private EnemyComponent[] EnemyComponents() =>
+        FindObjectsOfType<EnemyComponent>();
 }

@@ -1,18 +1,16 @@
-﻿using System.Collections.Generic;
-
-public class Barracks : Building
+﻿public class Barracks : Building
 {
     public double UnitDefence { get; private set; }
     public double UnitAttack { get; private set; }
     public int UnitLimit { get; private set; }
-    public bool Training { get; private set; }
-    public Dictionary<Unit.Type, int> Units { get; private set; }
+    public bool Training { get; set; }
+    public Army Army { get; private set; }
 
-    public override void Upgrade() =>
-        Upgrading = true;
-
-    public void Trained() =>
+    public void Trained(Base @base)
+    {
         Training = false;
+        Army = null;
+    }
 
     public override void LevelUp()
     {
@@ -23,9 +21,9 @@ public class Barracks : Building
         ++Level;
     }
 
-    public void Train(Dictionary<Unit.Type, int> units)
+    public void Train(Army army)
     {
         Training = true;
-        Units = units;
+        Army = army;
     }
 }
